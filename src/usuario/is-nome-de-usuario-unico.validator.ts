@@ -1,19 +1,20 @@
 import { registerDecorator, ValidationOptions, ValidationArguments, ValidatorConstraintInterface, ValidatorConstraint } from 'class-validator';
+import { UsuarioService } from './usuario.service';
 
 @ValidatorConstraint()
 class IsNomeDeUsuarioUnicoConstraint implements ValidatorConstraintInterface{
-  validate(value: any, validationArguments?: ValidationArguments): boolean | Promise<boolean> {
-    throw new Error('Method not implemented.');
+  constructor(private usuarioService: UsuarioService) {}
+  validate(nomeDeUsuario: string, validationArguments?: ValidationArguments): boolean | Promise<boolean> {
+    return !!!this.usuarioService.buscaPorNomeDeUsuario(nomeDeUsuario)
   }
 }
 
-export function IsNomeDeUsuarioUnico(property: string, validationOptions?: ValidationOptions) {
+export function IsNomeDeUsuarioUnico(validationOptions?: ValidationOptions) {
   return function (object: Object, propertyName: string) {
     registerDecorator({
-      name: 'IsNomeDeUsuarioUnico',
       target: object.constructor,
       propertyName: propertyName,
-      constraints: [property],
+      constraints: [],
       options: validationOptions,
       validator: IsNomeDeUsuarioUnico,
     });
