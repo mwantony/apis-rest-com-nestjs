@@ -1,16 +1,30 @@
 import { IsDate, IsEmail, IsNotEmpty, IsString } from 'class-validator';
 
 export class Usuario {
-  @IsNotEmpty()
   id: number;
-  @IsString()
+
+  @IsNotEmpty({
+      message: 'nomeDeUsuario é obrigatório.'
+  })
+  @IsString({
+      message: 'nomeDeUsuario precisa ser uma string.'
+  })
   nomeDeUsuario: string;
-  @IsEmail()
+
+  @IsEmail({}, {
+      message: 'email precisa ser um endereço de email válido.'
+  })
   email: string;
-  @IsNotEmpty()
+
+  @IsNotEmpty({
+      message: 'senha é obrigatório.'
+  })
   senha: string;
-  @IsNotEmpty()
+
+  @IsNotEmpty({
+      message: 'nomeCompleto é obrigatório.'
+  })
   nomeCompleto: string;
-  @IsDate()
+
   dataDeEntrada: Date;
 }
