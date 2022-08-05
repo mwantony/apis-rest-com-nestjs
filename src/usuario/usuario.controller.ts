@@ -13,7 +13,6 @@ export class UsuarioController {
   
   @Post()
   public cria(@Body() usuario: Usuario): Usuario {
-    throw new Error('Erro no cadastro de usuário!')
     return this.usuarioService.cria(usuario);
   }
 }
