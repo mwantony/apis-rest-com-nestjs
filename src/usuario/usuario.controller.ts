@@ -3,6 +3,7 @@ import {
   Controller,
   Get,
   HttpStatus,
+  NotFoundException,
   Param,
   Post,
   Res,
@@ -20,7 +21,14 @@ export class UsuarioController {
   public buscaPorNomeDeUsuario(
     @Param('nomeDeUsuario') nomeDeUsuario: string,
   ): Usuario {
-    return this.usuarioService.buscaPorNomeDeUsuario(nomeDeUsuario);
+    const usuarioEncontrado = this.usuarioService.buscaPorNomeDeUsuario(nomeDeUsuario);
+    if(!usuarioEncontrado) {
+      throw new NotFoundException({
+        statusCode: HttpStatus.NOT_FOUND,
+        message: `Usuário "${nomeDeUsuario}" não encontrado`
+      })
+    }
+    return usuarioEncontrado
   }
 
   @Post()
